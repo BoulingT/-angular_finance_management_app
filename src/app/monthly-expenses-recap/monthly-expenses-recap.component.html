@@ -1,0 +1,9 @@
+<div class="bg-indigo-600 h-full w-full rounded-2xl p-5">
+  <h2 class="font-semibold text-white text-2xl">DEPENSES MENSUELS FIXES</h2>
+  <div *ngIf="isLoading">
+    <p>Chargement des données...</p>
+  </div>
+  <div *ngIf="!isLoading">
+    <p>{{ monthlyExpenseList }}</p>
+  </div>
+</div>
