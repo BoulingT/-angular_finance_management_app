@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Input} from "@angular/core";
-import {MonthlyExpenses} from "../model/MonthlyExpenses";
+import {MonthlyExpenseList} from "../model/MonthlyExpenseList";
 import {ExpenseService} from "../service/expense.service";
 import {FixedExpense} from "../model/FixedExpense";
 
@@ -9,24 +9,45 @@ import {FixedExpense} from "../model/FixedExpense";
   templateUrl: './monthly-expenses-recap.component.html',
   styleUrls: ['./monthly-expenses-recap.component.scss']
 })
-export class MonthlyExpensesRecapComponent implements OnInit {
+export class MonthlyExpensesRecapComponent {
+  @Input() monthlyExpenseList: MonthlyExpenseList | undefined;
 
-  monthlyExpenseList: MonthlyExpenses | undefined;
-  isLoading: boolean = true;
-
-  constructor(private expenseService: ExpenseService) {}
-
-  ngOnInit() {
-    this.expenseService.getMonthlyExpenseList().subscribe({
-      next: (response) => {
-        this.monthlyExpenseList = response;
-        this.isLoading = false; // Fin du chargement
-      },
-      error: (err) => {
-        console.error('Erreur lors de la récupération des données :', err);
-        this.isLoading = false; // Fin du chargement en cas d'erreur
-      }
-    });
+  get consommationBudget(): number {
+    if (!this.monthlyExpenseList) return 0;
+    return this.monthlyExpenseList.consommationBudget.amount;
   }
 
+  get billList(): FixedExpense[] {
+    return this.monthlyExpenseList?.billList ?? [];
+  }
+
+  get subscriptionList(): FixedExpense[] {
+    return this.monthlyExpenseList?.subscriptionList ?? [];
+  }
+
+  get creditList(): FixedExpense[] {
+    return this.monthlyExpenseList?.creditList ?? [];
+  }
+
+  get creditListIsEmpty(): boolean {
+    return this.monthlyExpenseList?.creditList.length !== 0;
+  }
+
+  get totalMonthlyFixedExpenses(): number {
+    if (!this.monthlyExpenseList) return 0;
+    let total: number = 0;
+    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.billList, total);
+    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.subscriptionList, total);
+    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.creditList, total);
+    return total;
+  }
+
+  constructor(private expenseService: ExpenseService) {
+  }
+
+  private getTotalAmountFixedExpenseList(fixedExpenseList: FixedExpense[], totalAmount: number): number {
+    return fixedExpenseList.reduce(
+      (total: number, monthlyExpense: FixedExpense) => total + monthlyExpense.amount, totalAmount
+    );
+  }
 }

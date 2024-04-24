@@ -1,9 +1,31 @@
-<div class="bg-indigo-600 h-full w-full rounded-2xl p-5">
-  <h2 class="font-semibold text-white text-2xl">DEPENSES MENSUELS FIXES</h2>
-  <div *ngIf="isLoading">
-    <p>Chargement des données...</p>
+<div class="bg-indigo-600 rounded-2xl p-5">
+  <h2 class="font-semibold text-white text-2xl">DÉPENSES MENSUELLES FIXES</h2>
+  <p class="text-white">Budget de consommation: {{ consommationBudget }}$</p>
+
+  <div class="grid grid-cols-2 gap-4 mt-8">
+    <div>
+      <h3 class="font-semibold underline decoration-solid text-white">Factures mensuelles</h3>
+      <ul>
+        <li *ngFor="let bill of billList" class="text-white">{{ bill.label }}: {{ bill.amount }}$</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="font-semibold underline decoration-solid text-white">Abonnements mensuels</h3>
+      <ul>
+        <li *ngFor="let subscription of subscriptionList" class="text-white">{{ subscription.label }}
+          : {{ subscription.amount }}$
+        </li>
+      </ul>
+    </div>
   </div>
-  <div *ngIf="!isLoading">
-    <p>{{ monthlyExpenseList }}</p>
+
+  <div *ngIf="creditListIsEmpty" class="mt-4">
+    <h3 class="font-semibold underline decoration-solid text-white">Crédits de consommation</h3>
+    <ul>
+      <li *ngFor="let credit of creditList" class="text-white">{{ credit.label }}: {{ credit.amount }}$</li>
+    </ul>
   </div>
+  <p class="text-white my-2">Total dépenses fixes mensuelles: {{ totalMonthlyFixedExpenses }}$</p>
 </div>
+

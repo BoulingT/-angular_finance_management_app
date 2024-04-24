@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import {MonthlyExpenses} from "../model/MonthlyExpenses";
+import {Injectable} from '@angular/core';
+import {Observable, of, tap, catchError} from 'rxjs';
+import {MonthlyExpenseList} from "../model/MonthlyExpenseList";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -8,11 +8,27 @@ import {HttpClient} from "@angular/common/http";
 })
 export class ExpenseService {
 
-  private apiURL: string = "http://localhost:8080/api/expenses/get-monthly-expense-list";
+  private apiURL: string = "http://localhost:8080/api/expense/monthly-expense-list";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
-  getMonthlyExpenseList(): Observable<MonthlyExpenses> {
-    return this.httpClient.get<MonthlyExpenses>(this.apiURL);
+  getMonthlyExpenseList(): Observable<MonthlyExpenseList | undefined> {
+    return this.httpClient.get<MonthlyExpenseList>(this.apiURL).pipe(
+      tap((data) => this.log(data)),
+      catchError((error) => {
+        console.log(error);
+        return of(undefined);
+      })
+    );
+  }
+
+  private handleError(error: Error, errorValue: any): void {
+    console.log(error);
+    return errorValue;
+  }
+
+  private log(response: MonthlyExpenseList | undefined): void {
+    console.table(response);
   }
 }

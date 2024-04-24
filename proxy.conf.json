@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "http://your-remote-server.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
