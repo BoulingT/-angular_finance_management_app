@@ -5,7 +5,9 @@ import {FixedExpense} from "../../model/expense/FixedExpense";
 import {MonthlyIncomeList} from "../../model/income/MonthlyIncomeList";
 import {IncomeService} from "../../service/income.service";
 import {FixedIncome} from "../../model/income/FixedIncome";
-import {IRessourcesDisplayConfiguration} from "../../components/ressources-display/ressources-display.component";
+import {
+  RessourceDisplayConfiguration
+} from "../../components/ressources-display/ressources-display.component";
 
 @Component({
   selector: 'app-manage-ressources',
@@ -16,55 +18,121 @@ export class ManageRessourcesComponent implements OnInit {
   monthlyExpenseList: MonthlyExpenseList | undefined;
   monthlyIncomeList: MonthlyIncomeList | undefined;
 
-  get revenuesAmount(): number | undefined {
-    if (!this.monthlyIncomeList) return undefined;
-    return this.monthlyIncomeList.totalIncomeAmount;
-  }
-
-  get fixedExpensesTotalAmount(): number | undefined {
-    if (!this.monthlyExpenseList) return undefined;
-    let total: number = 0;
-    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.billList, total);
-    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.subscriptionList, total);
-    return total;
-  }
-
-  get creditTotalAmount(): number | undefined {
-    if (!this.monthlyExpenseList) return undefined;
-    return this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.creditList, 0);
-  }
-
-  get ressourcesDisplayConfiguration(): IRessourcesDisplayConfiguration | undefined {
-    if (!this.monthlyIncomeList || !this.monthlyExpenseList) return undefined;
-
+  get revenuesRessourceDisplayConfiguration(): RessourceDisplayConfiguration {
+    if (!this.monthlyIncomeList) return {
+      label: 'ERROR',
+      totalAmount: -9999,
+      list: [],
+    };
     const incomeList: FixedIncome[] = [
       this.monthlyIncomeList.salary ?? [],
       this.monthlyIncomeList.freelance ?? [],
       ...(this.monthlyIncomeList.aids.flat() ?? [])
     ];
-
     return {
-      incomeLabel: 'REVENUS',
-      incomeTotalAmount: this.monthlyIncomeList?.totalIncomeAmount ?? -1,
-      incomeList: incomeList.flat(),
-      billLabel: 'FACTURES',
-      billTotalAmount: this.monthlyExpenseList.billList.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue.amount;
+      label: 'REVENUS',
+      totalAmount: this.monthlyIncomeList?.totalIncomeAmount ?? -1,
+      list: incomeList.flat() ?? [],
+    }
+  }
+
+  get billsRessourceDisplayConfiguration(): RessourceDisplayConfiguration {
+    if (!this.monthlyExpenseList) return {
+      label: 'ERROR',
+      totalAmount: -9999,
+      list: [],
+    };
+    return {
+      label: 'FACTURES',
+      totalAmount: this.monthlyExpenseList.billList.reduce((accumulator, bill) => {
+        return accumulator + bill.amount;
       }, 0),
-      billList: this.monthlyExpenseList.billList.flat() ?? [],
-      subscriptionLabel: 'ABONNEMENTS',
-      subscriptionAmount: this.monthlyExpenseList.subscriptionList.reduce((accumulator: number, expense: FixedExpense) => {
-        return accumulator + expense.amount;
+      list: this.monthlyExpenseList.billList,
+    }
+  }
+
+  get subscriptionRessourceDisplayConfiguration(): RessourceDisplayConfiguration {
+    if (!this.monthlyExpenseList) return {
+      label: 'ERROR',
+      totalAmount: -9999,
+      list: [],
+    };
+    return {
+      label: 'ABONNEMENTS',
+      totalAmount: this.monthlyExpenseList.subscriptionList.reduce((accumulator, subscription) => {
+        return accumulator + subscription.amount;
       }, 0),
-      subscriptionList: this.monthlyExpenseList.subscriptionList ?? [],
-      debtLabel: 'DETTES',
-      debtTotalAmount: this.monthlyExpenseList.creditList.reduce((accumulator: number, debt: FixedExpense) => {
-        return accumulator + debt.amount;
+      list: this.monthlyExpenseList.subscriptionList,
+    }
+
+  }
+
+  get debtRessourceDisplayConfiguration(): RessourceDisplayConfiguration {
+    if (!this.monthlyExpenseList) return {
+      label: 'ERROR',
+      totalAmount: -9999,
+      list: [],
+    };
+    return {
+      label: 'DETTES',
+      totalAmount: this.monthlyExpenseList.creditList.reduce((accumulator, credit) => {
+        return accumulator + credit.amount;
       }, 0),
-      debtList: this.monthlyExpenseList.creditList ?? [],
+      list: this.monthlyExpenseList.creditList,
+    }
+  }
+
+  get ressourceDisplayConfigurationList(): RessourceDisplayConfiguration[] {
+    return [
+      this.revenuesRessourceDisplayConfiguration,
+      this.billsRessourceDisplayConfiguration,
+      this.subscriptionRessourceDisplayConfiguration,
+      this.debtRessourceDisplayConfiguration,
+    ];
+  }
+
+  get infoCardConfigurationList() {
+    return [
+      this.revenuesInfoCardConfiguration,
+      this.expensesInfoCardConfiguration,
+      this.savingsInfoCardConfiguration,
+      this.creditCardInfoConfiguration
+    ]
+  }
+
+  get revenuesInfoCardConfiguration() {
+    return {
+      label: 'REVENUS',
+      amount: this.monthlyIncomeList?.totalIncomeAmount,
+    }
+  }
+
+  get expensesInfoCardConfiguration() {
+    if (!this.monthlyExpenseList) return undefined;
+    let total: number = 0;
+    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.billList, total);
+    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.subscriptionList, total);
+    return {
+      label: 'DEPENSES MENSUELLES',
+      amount: total,
     };
   }
 
+  get savingsInfoCardConfiguration() {
+    return {
+      label: 'EPARGNE MENSUELLE',
+      amount: 600,
+    };
+  }
+
+  get creditCardInfoConfiguration() {
+    return {
+      label: 'DETTES EN COURS',
+      amount: this.monthlyExpenseList?.creditList.reduce((accumulator, credit) => {
+        return accumulator + credit.amount;
+      }, 0),
+    }
+  }
 
   constructor(private expenseService: ExpenseService, private incomeService: IncomeService) {
   }

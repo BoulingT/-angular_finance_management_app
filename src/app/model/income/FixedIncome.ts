@@ -1,43 +1,14 @@
-import {InvestmentAccountShort} from "../investment/investment-account-short";
+import {FixedResource} from "../FixedRessource";
 
-interface IFixedIncome {
-  id: number,
-  label: string,
-  amount: number,
-  incomeType: number,
-}
-
-export class FixedIncome implements IFixedIncome {
-
-  private _id: number;
-
-  private _label: string;
-
-  private _amount: number;
-
+export class FixedIncome extends FixedResource {
   private _incomeType: number;
 
-  get id(): number {
-    return this._id;
-  }
-
-  get label(): string {
-    return this._label;
-  }
-
-  get amount(): number {
-    return this._amount;
+  constructor(id: number, label: string, amount: number, incomeType: number) {
+    super(id, label, amount);
+    this._incomeType = incomeType;
   }
 
   get incomeType(): number {
     return this._incomeType;
-  }
-
-
-  constructor(id: number, label: string, amount: number, incomeType: number) {
-    this._id = id;
-    this._label = label;
-    this._amount = amount;
-    this._incomeType = incomeType;
   }
 }

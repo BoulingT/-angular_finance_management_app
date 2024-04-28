@@ -1,54 +1,14 @@
-<div class="bg-indigo-600 text-white flex rounded-2xl gap-5 p1">
-  <div *ngIf="incomeListConfiguration"
-       class="bg-gray-600 rounded-2xl p-4"
+<div *ngIf="ressourceDisplayConfiguration"
+     class="bg-indigo-600 rounded-2xl p-4 text-white flex flex-col rounded-2xl p-1 w-full h-full"
+>
+  <h2 class="text-lg font-semibold mb-2">{{ ressourceDisplayConfiguration.label }}</h2>
+  <ul
   >
-    <h2 class="text-lg font-semibold mb-2">REVENUS</h2>
-    <ul
-    >
-      <li *ngFor="let income of incomeListConfiguration.incomeList"
-      >{{ income.label }}: {{ income.amount }}$
-      </li>
-    </ul>
-    <p class="font-semibold">TOTAL: {{ incomeListConfiguration.incomeTotalAmount }}$</p>
-    <button class="bg-indigo-600 ml-auto px-4 py-2 rounded-full hover:bg-indigo-700">GERER</button>
-  </div>
-  <div *ngIf="incomeListConfiguration"
-       class="bg-gray-600 rounded-2xl p-4"
-  >
-    <h2 class="text-lg font-semibold mb-2">{{ incomeListConfiguration.billLabel }}</h2>
-    <ul
-    >
-      <li *ngFor="let income of incomeListConfiguration.billList"
-      >{{ income.label }}: {{ income.amount }}$
-      </li>
-    </ul>
-    <p class="font-semibold">TOTAL: {{ incomeListConfiguration.billTotalAmount }}$</p>
-    <button class="bg-indigo-600 ml-auto px-4 py-2 rounded-full hover:bg-indigo-700">GERER</button>
-  </div>
-  <div *ngIf="incomeListConfiguration"
-       class="bg-gray-600 rounded-2xl p-4"
-  >
-    <h2 class="text-lg font-semibold mb-2">{{ incomeListConfiguration.subscriptionLabel }}</h2>
-    <ul
-    >
-      <li *ngFor="let income of incomeListConfiguration.subscriptionList"
-      >{{ income.label }}: {{ income.amount }}$
-      </li>
-    </ul>
-    <p class="font-semibold">TOTAL: {{ incomeListConfiguration.subscriptionAmount }}$</p>
-    <button class="bg-indigo-600 ml-auto px-4 py-2 rounded-full hover:bg-indigo-700">GERER</button>
-  </div>
-  <div *ngIf="incomeListConfiguration"
-       class="bg-gray-600 rounded-2xl p-4"
-  >
-    <h2 class="text-lg font-semibold mb-2">{{ incomeListConfiguration.debtLabel }}</h2>
-    <ul
-    >
-      <li *ngFor="let income of incomeListConfiguration.debtList"
-      >{{ income.label }}: {{ income.amount }}$
-      </li>
-    </ul>
-    <p class="font-semibold">TOTAL: {{ incomeListConfiguration.debtTotalAmount }}$</p>
-    <button class="bg-indigo-600 ml-auto px-4 py-2 rounded-full hover:bg-indigo-700">GERER</button>
-  </div>
+    <li *ngFor="let income of ressourceDisplayConfiguration.list"
+    >{{ income.label }}: {{ income.amount }}$
+    </li>
+  </ul>
+  <p class="font-semibold">TOTAL: {{ ressourceDisplayConfiguration.totalAmount }}$</p>
+  <button class="bg-indigo-600 ml-auto px-4 py-2 rounded-full hover:bg-indigo-700">GERER</button>
 </div>
+

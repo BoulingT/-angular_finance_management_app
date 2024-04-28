@@ -1,29 +1,39 @@
 <div class="grid grid-rows-3 grid-cols-3 gap-5 p-4">
-  <app-info-amount-card
-    [title]="'REVENUS'"
-    [amount]="revenuesAmount"
-    class="row-start-1 col-start-1"
-  ></app-info-amount-card>
-  <app-info-amount-card
-    [title]="'DEPENSES FIXES'"
-    [amount]="fixedExpensesTotalAmount"
-    class="row-start-1 col-start-2"
-  ></app-info-amount-card>
-  <app-info-amount-card
-    [title]="'EPARGNES MENSUELLE'"
-    [amount]="600"
-    class="row-start-2 col-start-1"
-  ></app-info-amount-card>
-  <app-info-amount-card
-    [title]="'DETTES EN COURS'"
-    [amount]="creditTotalAmount"
-    class="row-start-2 col-start-2"
-  ></app-info-amount-card>
+  <div *ngFor="let infoCard of infoCardConfigurationList"
+       class="h-fit w-fit rounded-2xl row-start-1 row-end-2 col-start-1 col-end-2 grid grid-rows-2 grid-cols-2 gap-5">
+    <app-info-amount-card
+      *ngFor="let infoCard of infoCardConfigurationList"
+      [title]="infoCard?.label"
+      [amount]="infoCard?.amount"
+    ></app-info-amount-card>
+    <!--    <app-info-amount-card-->
+    <!--      [title]="'REVENUS'"-->
+    <!--      [amount]="revenuesAmount"-->
+    <!--      class="row-start-1 col-start-1"-->
+    <!--    ></app-info-amount-card>-->
+    <!--    <app-info-amount-card-->
+    <!--      [title]="'DEPENSES FIXES'"-->
+    <!--      [amount]="fixedExpensesTotalAmount"-->
+    <!--      class="row-start-1 col-start-2"-->
+    <!--    ></app-info-amount-card>-->
+    <!--    <app-info-amount-card-->
+    <!--      [title]="'EPARGNES MENSUELLE'"-->
+    <!--      [amount]="600"-->
+    <!--      class="row-start-2 col-start-1"-->
+    <!--    ></app-info-amount-card>-->
+    <!--    <app-info-amount-card-->
+    <!--      [title]="'DETTES EN COURS'"-->
+    <!--      [amount]="creditTotalAmount"-->
+    <!--      class="row-start-2 col-start-2"-->
+    <!--    ></app-info-amount-card>-->
+  </div>
+  <div *ngFor="let ressource of ressourceDisplayConfigurationList">
+    <app-ressources-display
+      [ressourceDisplayConfiguration]="ressource"
+    ></app-ressources-display>
+  </div>
   <app-repartition-diagram
     class="row-start-1 row-end-3 col-start-3 self-stretch flex"
   ></app-repartition-diagram>
-  <app-ressources-display
-    class="row-start-3 row-end-4 col-start-1 col-end-4 h-1/3"
-    [incomeListConfiguration]="ressourcesDisplayConfiguration"
-  ></app-ressources-display>
+
 </div>
