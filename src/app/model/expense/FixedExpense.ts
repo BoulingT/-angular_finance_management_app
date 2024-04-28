@@ -1,9 +1,9 @@
 export class FixedExpense {
 
 
-  constructor(id: number, userId: number, amount: number, label: string, expenseType: number) {
+  constructor(id: number, amount: number, label: string, expenseType: number) {
     this._id = id;
-    this.userId = userId;
+    // this.userId = userId;
     this._amount = amount;
     this._label = label;
     this._expenseType = expenseType;
@@ -11,7 +11,7 @@ export class FixedExpense {
 
   private _id: number;
 
-  private userId: number;
+  // private userId: number;
 
   private _amount: number;
 

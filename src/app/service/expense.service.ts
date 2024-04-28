@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of, tap, catchError} from 'rxjs';
-import {MonthlyExpenseList} from "../model/MonthlyExpenseList";
+import {MonthlyExpenseList} from "../model/expense/MonthlyExpenseList";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -17,7 +17,6 @@ export class ExpenseService {
     return this.httpClient.get<MonthlyExpenseList>(this.apiURL).pipe(
       tap((data) => this.log(data)),
       catchError((error) => {
-        console.log(error);
         return of(undefined);
       })
     );

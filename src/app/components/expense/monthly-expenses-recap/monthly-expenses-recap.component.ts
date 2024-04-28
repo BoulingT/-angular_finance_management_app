@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Input} from "@angular/core";
-import {MonthlyExpenseList} from "../model/MonthlyExpenseList";
-import {ExpenseService} from "../service/expense.service";
-import {FixedExpense} from "../model/FixedExpense";
+import {MonthlyExpenseList} from "../../../model/expense/MonthlyExpenseList";
+import {ExpenseService} from "../../../service/expense.service";
+import {FixedExpense} from "../../../model/expense/FixedExpense";
 
 @Component({
   selector: 'app-monthly-expenses-recap',
@@ -40,9 +40,6 @@ export class MonthlyExpensesRecapComponent {
     total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.subscriptionList, total);
     total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.creditList, total);
     return total;
-  }
-
-  constructor(private expenseService: ExpenseService) {
   }
 
   private getTotalAmountFixedExpenseList(fixedExpenseList: FixedExpense[], totalAmount: number): number {

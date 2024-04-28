@@ -1,0 +1,23 @@
+<div class="bg-indigo-600 rounded-2xl p-5">
+  <h2 class="font-semibold text-white text-2xl">INVESTISSEMENTS EN COURS</h2>
+  <p class="text-white">Total investi à date: {{ totalAmountInvested }}$</p>
+  <div class="grid grid-cols-2 gap-4 mt-8">
+    <div>
+      <h3 class="font-semibold underline decoration-solid text-white">PEA</h3>
+      <ul>
+        <li *ngFor="let peaAccountShort of peaAccountShortList" class="text-white">{{ peaAccountShort.brokerName }}
+          : {{ peaAccountShort.totalValue }}$
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="font-semibold underline decoration-solid text-white">PEA</h3>
+      <ul>
+        <li class="text-white">{{ perAccountShort?.brokerName }}
+          : {{ perAccountShort?.totalValue }}$
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>

@@ -3,7 +3,12 @@
     class="col-start-1 row-start-1 m-10"
     [monthlyExpenseList]="getMonthlyExpenseList"
   ></app-monthly-expenses-recap>
-  <div class="col-start-2 row-start-1 m-10">Component 2</div>
+  <app-investment-recap
+    class="col-start-2 row-start-1 m-10"
+    [totalAmountInvested]="getTotalAmountInvested"
+    [peaAccountShortList]="peaAccountShortList"
+    [perAccountShort]="perAccountShort"
+  ></app-investment-recap>
   <div class="col-start-1 row-start-2 m-10">Component 3</div>
   <div class="col-start-2 row-start-2 m-10">Component 4</div>
 </div>
