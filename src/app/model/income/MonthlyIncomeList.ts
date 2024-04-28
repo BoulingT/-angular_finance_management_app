@@ -47,4 +47,5 @@ export class MonthlyIncomeList {
     this._aids = aids;
     this._totalIncomeAmount = totalIncomeAmount;
   }
+
 }

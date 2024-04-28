@@ -13,6 +13,7 @@ import {InvestmentRecapComponent} from './components/investment/investment-recap
 import {ManageRessourcesComponent} from './pages/manage-ressources/manage-ressources.component';
 import {InfoCardComponent} from './components/info-amount-card/info-card.component';
 import {RepartitionDiagramComponent} from './components/graphs/repartition-diagram/repartition-diagram.component';
+import { RessourcesDisplayComponent } from './components/ressources-display/ressources-display.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {RepartitionDiagramComponent} from './components/graphs/repartition-diagr
     InvestmentRecapComponent,
     ManageRessourcesComponent,
     InfoCardComponent,
-    RepartitionDiagramComponent
+    RepartitionDiagramComponent,
+    RessourcesDisplayComponent
   ],
   imports: [
     BrowserModule,

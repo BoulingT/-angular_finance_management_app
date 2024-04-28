@@ -4,6 +4,8 @@ import {MonthlyExpenseList} from "../../model/expense/MonthlyExpenseList";
 import {FixedExpense} from "../../model/expense/FixedExpense";
 import {MonthlyIncomeList} from "../../model/income/MonthlyIncomeList";
 import {IncomeService} from "../../service/income.service";
+import {FixedIncome} from "../../model/income/FixedIncome";
+import {IRessourcesDisplayConfiguration} from "../../components/ressources-display/ressources-display.component";
 
 @Component({
   selector: 'app-manage-ressources',
@@ -31,6 +33,38 @@ export class ManageRessourcesComponent implements OnInit {
     if (!this.monthlyExpenseList) return undefined;
     return this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.creditList, 0);
   }
+
+  get ressourcesDisplayConfiguration(): IRessourcesDisplayConfiguration | undefined {
+    if (!this.monthlyIncomeList || !this.monthlyExpenseList) return undefined;
+
+    const incomeList: FixedIncome[] = [
+      this.monthlyIncomeList.salary ?? [],
+      this.monthlyIncomeList.freelance ?? [],
+      ...(this.monthlyIncomeList.aids.flat() ?? [])
+    ];
+
+    return {
+      incomeLabel: 'REVENUS',
+      incomeTotalAmount: this.monthlyIncomeList?.totalIncomeAmount ?? -1,
+      incomeList: incomeList.flat(),
+      billLabel: 'FACTURES',
+      billTotalAmount: this.monthlyExpenseList.billList.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.amount;
+      }, 0),
+      billList: this.monthlyExpenseList.billList.flat() ?? [],
+      subscriptionLabel: 'ABONNEMENTS',
+      subscriptionAmount: this.monthlyExpenseList.subscriptionList.reduce((accumulator: number, expense: FixedExpense) => {
+        return accumulator + expense.amount;
+      }, 0),
+      subscriptionList: this.monthlyExpenseList.subscriptionList ?? [],
+      debtLabel: 'DETTES',
+      debtTotalAmount: this.monthlyExpenseList.creditList.reduce((accumulator: number, debt: FixedExpense) => {
+        return accumulator + debt.amount;
+      }, 0),
+      debtList: this.monthlyExpenseList.creditList ?? [],
+    };
+  }
+
 
   constructor(private expenseService: ExpenseService, private incomeService: IncomeService) {
   }

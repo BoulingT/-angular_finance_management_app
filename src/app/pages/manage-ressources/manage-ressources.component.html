@@ -1,4 +1,4 @@
-<div class="grid grid-rows-3 grid-cols-3 gap-5">
+<div class="grid grid-rows-3 grid-cols-3 gap-5 p-4">
   <app-info-amount-card
     [title]="'REVENUS'"
     [amount]="revenuesAmount"
@@ -22,4 +22,8 @@
   <app-repartition-diagram
     class="row-start-1 row-end-3 col-start-3 self-stretch flex"
   ></app-repartition-diagram>
+  <app-ressources-display
+    class="row-start-3 row-end-4 col-start-1 col-end-4 h-1/3"
+    [incomeListConfiguration]="ressourcesDisplayConfiguration"
+  ></app-ressources-display>
 </div>
