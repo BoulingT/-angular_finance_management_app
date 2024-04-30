@@ -1,13 +1,5 @@
 import {FixedIncome} from "./FixedIncome";
 
-interface IMonthlyIncomeList {
-  id: number;
-  salary: FixedIncome;
-  freelance: FixedIncome;
-  aids: FixedIncome[];
-  totalIncomeAmount: number;
-}
-
 export class MonthlyIncomeList {
 
   private _id: number;

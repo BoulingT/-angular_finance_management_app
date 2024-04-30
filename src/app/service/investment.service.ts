@@ -12,7 +12,7 @@ export class InvestmentService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getInvestmentRecap() {
+  getInvestmentRecap$() {
     return this.httpClient.get<InvestmentRecap>(this.apiUrl).pipe();
   }
 

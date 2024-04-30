@@ -10,41 +10,34 @@ import {FixedExpense} from "../../../model/expense/FixedExpense";
   styleUrls: ['./monthly-expenses-recap.component.scss']
 })
 export class MonthlyExpensesRecapComponent {
-  @Input() monthlyExpenseList: MonthlyExpenseList | undefined;
+  @Input() monthlyExpenseList!: MonthlyExpenseList;
 
   get consommationBudget(): number {
-    if (!this.monthlyExpenseList) return 0;
     return this.monthlyExpenseList.consommationBudget.amount;
   }
 
   get billList(): FixedExpense[] {
-    return this.monthlyExpenseList?.billList ?? [];
+    return this.monthlyExpenseList.billList;
   }
 
   get subscriptionList(): FixedExpense[] {
-    return this.monthlyExpenseList?.subscriptionList ?? [];
+    return this.monthlyExpenseList.subscriptionList;
   }
 
   get creditList(): FixedExpense[] {
-    return this.monthlyExpenseList?.creditList ?? [];
-  }
-
-  get creditListIsEmpty(): boolean {
-    return this.monthlyExpenseList?.creditList.length !== 0;
+    return this.monthlyExpenseList.creditList;
   }
 
   get totalMonthlyFixedExpenses(): number {
-    if (!this.monthlyExpenseList) return 0;
-    let total: number = 0;
-    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.billList, total);
-    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.subscriptionList, total);
-    total = this.getTotalAmountFixedExpenseList(this.monthlyExpenseList?.creditList, total);
-    return total;
+    const totalBill: number = this.getTotalAmountFixedExpenseList(this.billList);
+    const totalSubscription = this.getTotalAmountFixedExpenseList(this.subscriptionList);
+    const totalCredit = this.getTotalAmountFixedExpenseList(this.creditList);
+    return totalBill + totalSubscription + totalCredit;
   }
 
-  private getTotalAmountFixedExpenseList(fixedExpenseList: FixedExpense[], totalAmount: number): number {
+  private getTotalAmountFixedExpenseList(fixedExpenseList: FixedExpense[],): number {
     return fixedExpenseList.reduce(
-      (total: number, monthlyExpense: FixedExpense) => total + monthlyExpense.amount, totalAmount
-    );
+      (total: number, monthlyExpense: FixedExpense) => total + monthlyExpense.amount
+      , 0);
   }
 }

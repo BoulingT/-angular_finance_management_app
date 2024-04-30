@@ -13,18 +13,10 @@ export class ExpenseService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getMonthlyExpenseList(): Observable<MonthlyExpenseList | undefined> {
+  getMonthlyExpenseList$(): Observable<MonthlyExpenseList> {
     return this.httpClient.get<MonthlyExpenseList>(this.apiURL).pipe(
       tap((data) => this.log(data)),
-      catchError((error) => {
-        return of(undefined);
-      })
     );
-  }
-
-  private handleError(error: Error, errorValue: any): void {
-    console.log(error);
-    return errorValue;
   }
 
   private log(response: MonthlyExpenseList | undefined): void {

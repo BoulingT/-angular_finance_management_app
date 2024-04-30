@@ -15,9 +15,6 @@ export interface RessourceDisplayConfiguration {
   templateUrl: './ressources-display.component.html',
   styleUrls: ['./ressources-display.component.scss']
 })
-export class RessourcesDisplayComponent implements OnInit {
-  @Input() ressourceDisplayConfiguration: RessourceDisplayConfiguration | undefined;
-
-  ngOnInit() {
-  }
+export class RessourcesDisplayComponent {
+  @Input() ressourceDisplayConfiguration!: RessourceDisplayConfiguration;
 }

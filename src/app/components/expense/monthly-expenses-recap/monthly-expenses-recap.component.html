@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div *ngIf="creditListIsEmpty" class="mt-4">
+  <div class="mt-4">
     <h3 class="font-semibold underline decoration-solid text-white">Crédits de consommation</h3>
     <ul>
       <li *ngFor="let credit of creditList" class="text-white">{{ credit.label }}: {{ credit.amount }}$</li>

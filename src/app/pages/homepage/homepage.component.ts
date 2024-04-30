@@ -4,6 +4,7 @@ import {MonthlyExpenseList} from "../../model/expense/MonthlyExpenseList";
 import {InvestmentRecap} from "../../model/investment/InvestmentRecap";
 import {InvestmentService} from "../../service/investment.service";
 import {InvestmentAccountShort} from "../../model/investment/investment-account-short";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-homepage',
@@ -12,12 +13,8 @@ import {InvestmentAccountShort} from "../../model/investment/investment-account-
 })
 export class HomepageComponent {
 
-  private monthlyExpenseList: MonthlyExpenseList | undefined;
+  monthlyExpenseList$!: Observable<MonthlyExpenseList>;
   private investmentRecap: InvestmentRecap | undefined;
-
-  get getMonthlyExpenseList(): MonthlyExpenseList | undefined {
-    return this.monthlyExpenseList;
-  }
 
   get getTotalAmountInvested(): number {
     return 0;
@@ -32,14 +29,11 @@ export class HomepageComponent {
   }
 
   constructor(private expenseService: ExpenseService, private investmentService: InvestmentService) {
+    this.monthlyExpenseList$ = this.expenseService.getMonthlyExpenseList$();
   }
 
   ngOnInit(): void {
-    this.expenseService.getMonthlyExpenseList().subscribe({
-      next: (response: MonthlyExpenseList | undefined) => this.monthlyExpenseList = response,
-      error: (err) => console.error('Erreur lors de la récupération des données :', err),
-    });
-    this.investmentService.getInvestmentRecap().subscribe({
+    this.investmentService.getInvestmentRecap$().subscribe({
       next: (response: InvestmentRecap | undefined) => this.investmentRecap = response,
       error: (err) => console.error('Erreur lors de la récupération des données :', err),
     })

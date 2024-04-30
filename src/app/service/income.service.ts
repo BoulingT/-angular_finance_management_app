@@ -12,13 +12,9 @@ export class IncomeService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getMonthlyIncomeList(): Observable<MonthlyIncomeList | undefined> {
+  getMonthlyIncomeList$(): Observable<MonthlyIncomeList> {
     return this.httpClient.get<MonthlyIncomeList>(this.apiUrl).pipe(
       tap((data) => this.log(data)),
-      catchError((error) => {
-        console.log(error);
-        return of(undefined);
-      })
     );
   }
 
